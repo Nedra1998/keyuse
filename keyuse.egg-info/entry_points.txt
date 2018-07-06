@@ -1,0 +1,3 @@
+[console_scripts]
+keyuse = keyuse.keyuse:main
+
