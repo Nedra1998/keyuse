@@ -59,9 +59,19 @@ def plot(args):
     plt.xticks(np.arange(len(values)), name)
     plt.show()
 
+def data(args):
+    global DATA
+    with open(args.file, 'r') as file:
+        DATA = json.load(file)
+    values = [x[1] for _, x in DATA.items()]
+    name = [chr(x[0]) if x[0] != 0 else _ for _, x in DATA.items()]
+    name_len = len(max(name))
+    for i, name in enumerate(name):
+        print("{:{}}:{}".format(name, name_len, values[i]))
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('action', choices={'logger', 'plot'})
+    parser.add_argument('action', choices={'logger', 'plot', 'list'})
     parser.add_argument('cancel', nargs='?', default='grave')
     parser.add_argument('file', nargs='?', default='keys.json')
     parser.add_argument('--no-join', action='store_false')
@@ -72,6 +82,8 @@ def main():
         logger(args)
     elif args.action == 'plot':
         plot(args)
+    elif args.action == 'list':
+        data(args)
 
 
 if __name__ == "__main__":
